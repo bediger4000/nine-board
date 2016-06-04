@@ -5,16 +5,16 @@
 <meta name="google-site-verification" content="ixC4wtdetOlWNosRSwl6CFgRutGwfbq_9r9z534uRkY" />
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />                
 <!--
-    Copyright (C) 2013, Bruce Ediger                                            
+    Copyright (C) 2013-2015, Bruce Ediger                                            
                                                                                      
-    This file is gen9.html.                                                        
+    This file is 9board.html.                                                        
                                                                                      
-    gen9.html is free software; you can redistribute it and/or modify                      
+    9board.html is free software; you can redistribute it and/or modify                      
     it under the terms of the GNU General Public License as published by             
     the Free Software Foundation; either version 2 of the License, or                
     (at your option) any later version.                                              
                                                                                      
-    gen9.html is distributed in the hope that it will be useful,                           
+    9board.html is distributed in the hope that it will be useful,                           
     but WITHOUT ANY WARRANTY; without even the implied warranty of                   
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                    
     GNU General Public License for more details.                                     
@@ -30,7 +30,7 @@ This file does two things:
 2. Calculates the computer's moves.
 
 That means there's two different functions interwoven throughout
-the file.  Building the user interface is mainly in the NTML, and
+the file.  Building the user interface is mainly in the HTML, and
 in the JavaScript function drawBoard(). The event-driven stuff
 is functions humanClick(), which calls functions like clicked(),
 removeGoFirstButton(), DetermineWinner(), startTimer(), winnerNotice(),
@@ -42,15 +42,15 @@ calls alphabeta() and utility().
 
 The no-man's-land between UI and algorithmic back-end is humanClick().
 
-One ugly thing in this code is that a move is represented two ways: the
-ordered pair (subboard, slot), both numbers having range 0-8 inclusive, and
-an index into an array of length 89.  I introduced a lot of bugs by having
-these two different representations.
+One ugly thing in this code is that a move is represented two ways: the ordered
+pair (subboard, slot), both numbers having range 0-8 inclusive, and as an index
+into an array of length 89.  I introduced a lot of bugs by having these two
+different representations.
 -->
 <script language="javascript" type="text/javascript">
 // <![CDATA[
 
-var DEPTH_LIMIT = 2;
+var DEPTH_LIMIT = 6;
 var VERY_LARGE = 2000000;
 var THRESHOLD = VERY_LARGE/2;
 
@@ -342,7 +342,8 @@ function x_your_move(board, last_slot) {
 			// We've kept all the moves that end up with best_val.  Pick one
 			// of them to make the game seem less deterministic, to humans
 			// at least. This can lead to computer picking not-so-good moves,
-			// as utility() gives the same value to moves of differing quality.
+			// as utility() gives the same value to moves that actually differ
+			// in quality.
 			var x = Math.round(Math.random() * 1000);
 			x = x % my_moves.length;
 			rv = my_moves[x];
@@ -517,10 +518,10 @@ function DetermineWinner() {
 // Remove the "computer goes first" button from view.
 // Called either from gofirst() or from humanClick()
 function removeGoFirstButton() {
-	goFirstButtonDiv.innerHTML = "";
+	goFirstButtonDiv.innerHTML = "<p>&nbsp;&nbsp;</p>";
 }
 function replaceGoFirstButton() {
-	goFirstButtonDiv.innerHTML = '<input type="button" name="go1st" value="Computer moves first" onclick="gofirst();" />';
+	goFirstButtonDiv.innerHTML = '<p><input type="button" name="go1st" value="Computer moves first" onclick="gofirst();" /></p>';
 }
 
 // Event handler for clicks on 'computer goes first' button.
@@ -620,7 +621,7 @@ function initiateGameBoard() {
 function totalReset() {
 	replaceGoFirstButton();
 	timerDiv.innerHTML = '';
-	boastDiv.innerHTML = '';
+	boastDiv.innerHTML = '<p>&nbsp;</p>';
 	document.getElementById('resetBtn').value = 'Reset';
 	document.getElementById('notification').innerHTML = '';
 
@@ -656,8 +657,6 @@ function changeStrength() {
 		if (!isNaN(strength) && strength != Number.POSITIVE_INIFINITY
 			&& strength != Number.NEGATIVE_INFINITY && strength >= 0)
 				DEPTH_LIMIT = strength;
-		// if ((DEPTH_LIMIT%2) == 1)
-		//	++DEPTH_LIMIT;
 		document.f.inputStrength.value = DEPTH_LIMIT;
 	}
 	catch (err) {
@@ -743,20 +742,21 @@ function gen_board(subboard) {
 </head>
 <body>
 <h1>Nine-board Tic Tac Toe</h1>
+<em><a href="mailto:bediger@stratigery.com">Bruce Ediger</a></em>
 <form name="f" method="get">
 <table id='grouping' border='0'>
 <tbody>
 <tr>
 	<td>
 		<strong>Strength:</strong>
-		<input type='text' name='inputStrength' value='2' size='2' onchange="changeStrength()" />
+		<input type='text' name='inputStrength' value='6' size='2' onchange="changeStrength()" />
 	<div id="boast"><p>&nbsp;&nbsp;</p></div>
 	</td>
 </tr>
 <tr>
 	<td>
 		<input type="button" name="resetbtn" value="Reset" id="resetBtn" onclick="totalReset();" />
-		<div id="gofirstbutton"><input type="button" name="go1st" value="Computer moves first" onclick="gofirst();" /></div>
+		<div id="gofirstbutton"><p><input type="button" name="go1st" value="Computer moves first" onclick="gofirst();" /></p></div>
 	</td>
 </tr>
 <tr>
@@ -790,6 +790,7 @@ function gen_board(subboard) {
 goFirstButtonDiv = document.getElementById("gofirstbutton");
 timerDiv = document.getElementById('timerDiv');
 boastDiv = document.getElementById('boast');
+changeStrength();
 // ]]>
 </script>
 </body>
