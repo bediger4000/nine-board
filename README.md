@@ -21,7 +21,18 @@ diagonally in any of the 9 ordinary tic tac toe boards wins.
 
 ### Example
 
+![example move](https://raw.githubusercontent.com/bediger4000/nine-board/master/example.png)
+
+In the above image, the `O` player made a move in the upper
+right board, specifically in the middle left slot.
+
+The `X` player is constrained to make their mark in any open
+slot of the middle left board.  The `O` player' will be
+constrained to make their second mark in the board corresponding
+to the slot in which the `X` player makes a mark.
+
 ## Installation
+
 
 ## Design
 
