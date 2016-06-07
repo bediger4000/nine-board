@@ -331,11 +331,12 @@ function x_your_move(board, last_slot) {
 		}
 	}
 
-	var rv;
+	var rv;  // return value, the number 0 - 81 of
+	         // the computer's move.
 
 	if (my_moves.length < 1)
 		alert("Problem: found no acceptable moves.");
-		// Yes, rv let undefined or something.
+		// Yes, rv left undefined or something.
 	else {
 		rv = my_moves[0];
 		if (my_moves.length > 1) {
@@ -538,7 +539,11 @@ function gofirst() {
 }
 
 // Check if any legal move exists.  Mainly used to
-// decide if cat wins.  Which it never does.
+// decide if cat wins.  Which it never does.  I'm not
+// sure that a cat game exists. 81 possible moves means
+// that the player that does first will also go last if
+// 81 slots get filled. Random exploration of the game tree
+// suggests that no cat games exist.
 function noLegalMoves() {
 	if (moveCount >= 81)
 		return 1;
