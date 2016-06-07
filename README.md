@@ -4,8 +4,8 @@ A JavaScript implementation of 9-board Tic Tac Toe
 
 You can [play it](https://rawgit.com/bediger4000/nine-board/master/9board.html) right now!
 
-This is not [Ultimate Tic Tac Toe](https://mathwithbaddrawings.com/2013/06/16/ultimate-tic-tac-toe/)
-- the winning condition is different. Any three-in-a-row wins this game. Ultimate Tic Tac Toe
+This is not [Ultimate Tic Tac Toe](https://mathwithbaddrawings.com/2013/06/16/ultimate-tic-tac-toe/).
+The winning condition is different. Any three-in-a-row wins this game. Ultimate Tic Tac Toe
 requires winning 3 subboards in a row.
 
 ## Rules
@@ -36,7 +36,7 @@ In the above image, the `O` player made a move in the upper
 right board, specifically in the middle left slot.
 
 The `X` player is constrained to make their mark in any open
-slot of the middle left board.  The `O` player' will be
+slot of the middle left board.  The `O` player will be
 constrained to make their second mark in the board corresponding
 to the slot in which the `X` player makes a mark.
 
@@ -80,18 +80,19 @@ Static evaluation is the only interesting part of the coding.  I tried to do
 incremental utility, by assigning a numerical value to the move being
 evaluated. `function utility()` does this assignment.  The idea was to spend
 less time calculating redundant utility values at the maximum depth or at
-leaves of the game tree. Unfortunately, the way I coded this program, the only
+leaves of the game tree. Unfortunately, the only
 static values that get considered are for moves made during reaching the
 maximum depth or the leaf nodes. I didn't include the value of the board at
 the start of the computer deciding on its move. This leads to a seemlingly
 more interesting computer opponent so I left this flaw un-fixed.
 
-The value of each move is given by a very large number minus the depth
-for a win, an increment of 3000 for getting two-in-a-row (the next move
+The value of a winnning move is given by a very large number minus the depth
+of lookahead,
+with an increment of 3000 for getting two-in-a-row (the next move
 can win), and an increment of 1000 for blocking a win.
 
 If no winning moves can be made, I gave it a slight bias for center-of-subboard
-slots, and an even lesser bias or corner-of-subboard slots.
+slots, and an even lesser bias for corner-of-subboard slots.
 
 This JavaScript program had a PHP precursor. I determined the utility values
 empirically, by playing two slightly different PHP programs against each
