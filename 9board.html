@@ -107,7 +107,7 @@ var WINNING_TRIADS_BY_SLOT = [
 	[WINNING_TRIADS[2], WINNING_TRIADS[5], WINNING_TRIADS[6]]
 ];
 
-// Indexes into a given 88-place board for corner-squares
+// Indexes into a given 88-place board for corner-slots
 // of the 9 sub-boards
 var CORNER_INDEXES = [
  	 0,  2,  6,  8,
@@ -117,8 +117,8 @@ var CORNER_INDEXES = [
 	40, 42, 46, 48,
 	50, 52, 56, 58,
 	60, 62, 66, 68,
-	70, 72, 77, 78,
-	80, 82, 88, 88
+	70, 72, 76, 78,
+	80, 82, 86, 88
 ];
 
 // Make an array, indexable by board-slot-index, value 1
@@ -131,15 +131,15 @@ for (idx = 0; idx < 89; ++idx)
 for (idx in CORNER_INDEXES)
 	CORNERS[CORNER_INDEXES[idx]] = 1;
 
-// Indexes into a given 88-place board for middle-squares
+// Indexes into a given 88-place board for middle-slots
 // of the 9 sub-boards.
 // Pre-calculation of this array allows easy utility value calcs.
 var MIDDLE_INDEXES = [
 	4, 14, 24, 34, 44, 54, 64, 74, 84
 ];
 // Array, indexable by board-slot-index, value 1
-// if the index is a middle square in a sub-board,
-// 0 if it's not a middle square in a sub-board.
+// if the index is a middle slot in a sub-board,
+// 0 if it's not a middle slot in a sub-board.
 var MIDDLES = [];
 for (idx = 0; idx < 89; ++idx)
 	MIDDLES[idx] = 0;
@@ -152,7 +152,7 @@ for (idx in MIDDLE_INDEXES)
 // values for 'O' (1) player.
 //
 // Actually returns an array of length 2, ret[0] = utility as number,
-// ret[1] = true if someoe won, false if someone lost.
+// ret[1] = true if someone won, false if the game should continue.
 //
 // The input move has a (subboard, slot) representation.  Both have
 // numeric values 0 thru 8 inclusive.
@@ -211,8 +211,8 @@ function utility(board, last_slot, slot, depth) {
 	}
 
 	if (!wn) {
-		// Give it a general preference for middles and 
-		// slightly lesser preference for corners, but only
+		// Give it a general preference for middle slots and 
+		// slightly lesser preference for corner slots, but only
 		// in non-winning positions.
 		// This score has more influence in start game (before all 9 subboards
 		// have a mark) and mid-game (at least 1 mark in all 9 subboards, but
