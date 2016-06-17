@@ -81,14 +81,14 @@ var THRESHOLD = VERY_LARGE/2;
 // Array of arrays of 3 slot-indexes.  Each "triad" constitutes
 // the slot-indexes in a subboard of a winning position.
 var WINNING_TRIADS = [
-	[0, 1, 2],
-	[3, 4, 5],
-	[6, 7, 8],
-	[0, 3, 6],
-	[1, 4, 7],
-	[2, 5, 8],
-	[0, 4, 8],
-	[2, 4, 6] 
+	[0, 1, 2],  // Across the top
+	[3, 4, 5],  // Across the middle
+	[6, 7, 8],  // Across the bottom
+	[0, 3, 6],  // Vertically left side
+	[1, 4, 7],  // Vertically down the middle
+	[2, 5, 8],  // Vertically right side
+	[0, 4, 8],  // Diagonally, upper left to lower right
+	[2, 4, 6]   // Diagnoally, upper right to lower left
 ];
 
 // Array of potentially-winning-triads, indexed by slot
@@ -108,7 +108,7 @@ var WINNING_TRIADS_BY_SLOT = [
 ];
 
 // Indexes into a given 88-place board for corner-slots
-// of the 9 sub-boards
+// of each of the 9 sub-boards
 var CORNER_INDEXES = [
  	 0,  2,  6,  8,
 	10, 12, 16, 18,
@@ -131,7 +131,7 @@ for (idx = 0; idx < 89; ++idx)
 for (idx in CORNER_INDEXES)
 	CORNERS[CORNER_INDEXES[idx]] = 1;
 
-// Indexes into a given 88-place board for middle-slots
+// Indexes into a given 88-slot board for middle-slots
 // of the 9 sub-boards.
 // Pre-calculation of this array allows easy utility value calcs.
 var MIDDLE_INDEXES = [
@@ -255,7 +255,7 @@ function alphabeta(
 	// subboard in which this move must take place.
 	var offset = last_slot * 10;
 
-	var scoare = score_so_far;
+	var score = score_so_far;
 
 	for (var slot = 0; slot < 9; ++slot) {
 		var move = offset + slot;
